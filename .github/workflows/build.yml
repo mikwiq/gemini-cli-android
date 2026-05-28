@@ -2,7 +2,7 @@ name: Build Flet Android APK
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,6 +23,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # Устанавливаем Flutter SDK принудительно через официальный экшен, 
+      # чтобы Flet даже не пытался ничего спрашивать
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
       - name: Install Build Tools
         run: |
           sudo apt-get update
@@ -32,9 +39,10 @@ jobs:
         run: |
           pip install "flet[all]" google-genai
 
+      # Добавляем флаг --no-interactive, чтобы сборщик работал в тихом режиме
       - name: Build APK via Flet
         run: |
-          flet build apk
+          flet build apk --no-interactive
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
