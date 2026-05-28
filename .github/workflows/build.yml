@@ -42,7 +42,7 @@ jobs:
       # Добавляем флаг --no-interactive, чтобы сборщик работал в тихом режиме
       - name: Build APK via Flet
         run: |
-          flet build apk --no-interactive
+          flet build apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
