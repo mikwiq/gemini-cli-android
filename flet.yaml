@@ -1,0 +1,6 @@
+app:
+  main_script: main.py
+
+android:
+  dependencies:
+    - google-genai
